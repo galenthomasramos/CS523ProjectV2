@@ -9,6 +9,7 @@ public class Trail {
 	PApplet parentApplet;
 	ArrayList<Circle> circleList;
 	float circleRadius;
+	int current_collision = -1;
 	
 	public Trail(PApplet _parent, float circleRadius){
 		this.circleRadius = circleRadius;
@@ -23,6 +24,26 @@ public class Trail {
 		for(PVector pvec: passedList){
 			circleList.add(new Circle(pvec.x, pvec.y, circleRadius));
 		}
+	}
+	
+	public boolean isColliding (Ant ant) {
+		int i=0;
+		for(Circle circ: circleList){
+			
+			boolean isColliding = ant.isColliding(circ);
+			
+			//change color attribute of ant that is colliding with trail:
+			if(isColliding){
+				ant.color = 0;
+				current_collision = i;
+				System.out.println("isColliding = " + isColliding);
+				return true;
+			}
+			else
+				ant.color = 255;
+			i++;
+		}
+		return false;
 	}
 	
 	//Add circles in regions of absent circles of trail

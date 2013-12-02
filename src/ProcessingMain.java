@@ -23,10 +23,12 @@ public class ProcessingMain extends PApplet {
 	
 	Trail tempTrail;
 	//Trail tempTrail = new Trail(this, 10);
+	boolean cheating = false;
 	
 	ArrayList<Explorer> explorersList;
 
 	boolean collisionDetected;
+	int last_known_pos = -1;
 	
 	public void setup(){
 		colorMode(RGB);
@@ -65,10 +67,23 @@ public class ProcessingMain extends PApplet {
 		
 		tempTrail.render();
 		
+		int old = tempTrail.current_collision;
+		System.out.println("last "+last_known_pos);
 		collisionDetected = isCollidingWithTrail();
 		
-		if (collisionDetected)
+		if (collisionDetected) {
 			System.out.println("Collision detected");
+			System.out.println("New collision position is circle "+tempTrail.current_collision + " old "+old);
+			if (old<tempTrail.current_collision-50 && old>0) {
+				last_known_pos = old;
+				cheating = true;
+			}
+			else if (tempTrail.current_collision<=last_known_pos)
+				cheating = false;
+				//stop();
+		} else {
+			System.out.println("Last known position is circle "+tempTrail.current_collision);
+		}
 		
 		drawExplorers();
 		
@@ -89,6 +104,7 @@ public class ProcessingMain extends PApplet {
 
 		//}
 			 //text("Latitude: " + latitude + "\n" + "Longitude: " + longitude + "\n" + "Altitude: " + altitude + "\n" + "Accuracy: " + accuracy + "\n" + "Provider: " + location.getProvider(), width/2, height/2);
+		text("Cheating: "+Boolean.toString(cheating), width*0.8f, height*0.9f);
 	}
 /*
 	public void onLocationEvent(double _latitude, double _longitude,double _altitude, float _accuracy) { // longitude = _longitude;
@@ -112,25 +128,13 @@ public class ProcessingMain extends PApplet {
 	
 	//Checks every explorer to see if it is colliding with circles that constitute the trail:
 	public boolean isCollidingWithTrail(){
-		boolean isColliding = false;
 		
 		for(Explorer exp: explorersList){
-			for(Circle circ: tempTrail.circleList){
-				
-				isColliding = exp.isColliding(circ);
-				
-				//change color attribute of ant that is colliding with trail:
-				if(isColliding){
-					exp.color = 0;
-					System.out.println("isColliding = " + isColliding);
-					return isColliding;
-				}
-				else
-					exp.color = 255;
-			}
+			if(tempTrail.isColliding(exp))
+				return true;
 		}
 		
-		return isColliding;
+		return false;
 	}
 	
 	public PVector convertCoords(float lat, float lon){
