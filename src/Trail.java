@@ -10,6 +10,7 @@ public class Trail {
 	ArrayList<Circle> circleList;
 	float circleRadius;
 	int current_collision = -1;
+	int color = 255;
 	
 	public Trail(PApplet _parent, float circleRadius){
 		this.circleRadius = circleRadius;
@@ -103,7 +104,7 @@ public class Trail {
 		if(circleList.size() > 0){
 			//System.out.println("Trail.circleList.size() = " + circleList.size());
 			for(Circle circ: circleList){
-				parentApplet.fill(255);
+				parentApplet.fill(this.parentApplet.color(color));
 				parentApplet.stroke(0);
 				//parentApplet.strokeWeight(5);
 				parentApplet.noStroke();

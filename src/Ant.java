@@ -25,7 +25,7 @@ public abstract class Ant {
 		buffer.point.x = parent.mouseX;
 		buffer.point.y = parent.mouseY;
 		
-		parent.fill(color);
+		parent.fill(this.parent.color(color));
 		parent.ellipse(buffer.point.getX(),buffer.point.getY(), 2*buffer.radius, 2*buffer.radius);
 		
 		//System.out.println("IN ANT RENDER:  buffer.point.getX(): " + buffer.point.getX() + " buffer.point.getY(): " + buffer.point.getY());

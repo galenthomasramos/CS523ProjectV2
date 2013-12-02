@@ -13,8 +13,10 @@ public class Colony {
 	public Colony(PApplet _parent, PVector _position, int _radius, int _color) {
 		parent = _parent;
 		position = _position;
+		radius = _radius;
 		buffer = new Circle (position.x, position.y, radius);
 		color = _color;
+
 	}
 
 	public void render() {
@@ -22,8 +24,9 @@ public class Colony {
 		parent.stroke(0);
 		parent.strokeWeight(2);
 		//parent.fill(color);
-		parent.fill(0);
+		parent.fill(this.parent.color(color));
 		parent.ellipse(buffer.point.getX(),buffer.point.getY(), 2*buffer.radius, 2*buffer.radius);
+		System.out.println("IN COLONY RENDER: " + "buffer.x: " + buffer.point.getX() + "  buffer.y: " + buffer.point.getY() + "2*buffer.radius: " + 2*buffer.radius );
 	}
 
 	boolean isColliding(Circle c)

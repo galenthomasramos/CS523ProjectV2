@@ -31,7 +31,7 @@ public class ProcessingMain extends PApplet {
 	int last_known_pos = -1;
 	
 	public void setup(){
-		colorMode(RGB);
+		colorMode(HSB);
 		size(800, 480);
 		tempTrail = new Trail(this, 10);
 		orientation(LANDSCAPE);
@@ -56,7 +56,7 @@ public class ProcessingMain extends PApplet {
 		
 		frameRate(60);
 		colony1Pos = new PVector(this.width/5, this.height/5);
-		colony1 = new Colony(this, colony1Pos, 30, 0x22FFAA);
+		colony1 = new Colony(this, colony1Pos, 35, 220);
 		
 		explorersList = new ArrayList<Explorer>();
 		explorersList.add(new Explorer(this, new PVector(0,0), 10, 0xFF0000));
@@ -66,6 +66,7 @@ public class ProcessingMain extends PApplet {
 		background(150);	
 		
 		tempTrail.render();
+		colony1.render();
 		
 		int old = tempTrail.current_collision;
 		System.out.println("last "+last_known_pos);
@@ -86,8 +87,7 @@ public class ProcessingMain extends PApplet {
 		}
 		
 		drawExplorers();
-		
-		colony1.render();
+
 		//if (location.getProvider() == "none")
 			//text("Location data is unavailable. \n" + "Please check your location settings.", width/2, height/2);
 		/*
