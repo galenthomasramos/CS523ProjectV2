@@ -103,24 +103,16 @@ public class Trail {
 		float mappedY;
 		
 		int randInt;
-		int randDir;
+		int randX;
 		
 		ArrayList<PVector> pvecs= new ArrayList<PVector>();
 		
 		circleList = new ArrayList<Circle>();
 		
 		for(int i = 0; i < divY; i++){
-				
 			mappedY = parentApplet.map(i, 0, divY, 0, parentApplet.height);
-			
-			//randInt = (int) (Math.random() * 2);
-			
-			randDir = (int) (Math.random() * parentApplet.width);
-			
-			mappedX = parentApplet.map(i, 0, divX, 0, parentApplet.width);
-			
-			circleList.add(new Circle(randDir, mappedY, circleRadius));
-			
+			randX = (int) (Math.random() * parentApplet.width);
+			circleList.add(new Circle(randX, mappedY, circleRadius));
 		}
 		
 	}

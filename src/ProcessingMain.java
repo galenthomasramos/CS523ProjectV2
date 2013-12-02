@@ -7,7 +7,6 @@ import processing.core.*;
 import controlP5.*;
 
 public class ProcessingMain extends PApplet {
-	
 	ControlP5 cp5;
 	
 	float diameter = 100.0f;
@@ -30,6 +29,7 @@ public class ProcessingMain extends PApplet {
 	boolean collisionDetected;
 	
 	public void setup(){
+		colorMode(RGB);
 		size(800, 480);
 		tempTrail = new Trail(this, 10);
 		orientation(LANDSCAPE);
@@ -53,6 +53,8 @@ public class ProcessingMain extends PApplet {
 		tempTrail.interpolateTrail();
 		
 		frameRate(60);
+		colony1Pos = new PVector(this.width/5, this.height/5);
+		colony1 = new Colony(this, colony1Pos, 30, 0x22FFAA);
 		
 		explorersList = new ArrayList<Explorer>();
 		explorersList.add(new Explorer(this, new PVector(0,0), 10, 0xFF0000));
@@ -69,6 +71,8 @@ public class ProcessingMain extends PApplet {
 			System.out.println("Collision detected");
 		
 		drawExplorers();
+		
+		colony1.render();
 		//if (location.getProvider() == "none")
 			//text("Location data is unavailable. \n" + "Please check your location settings.", width/2, height/2);
 		/*

@@ -28,7 +28,6 @@ public abstract class Ant {
 		parent.fill(color);
 		parent.ellipse(buffer.point.getX(),buffer.point.getY(), 2*buffer.radius, 2*buffer.radius);
 		
-
 		//System.out.println("IN ANT RENDER:  buffer.point.getX(): " + buffer.point.getX() + " buffer.point.getY(): " + buffer.point.getY());
 	}
 	

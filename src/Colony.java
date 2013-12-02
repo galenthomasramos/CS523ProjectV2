@@ -18,7 +18,11 @@ public class Colony {
 	}
 
 	public void render() {
-		parent.fill(color);
+		
+		parent.stroke(0);
+		parent.strokeWeight(2);
+		//parent.fill(color);
+		parent.fill(0);
 		parent.ellipse(buffer.point.getX(),buffer.point.getY(), 2*buffer.radius, 2*buffer.radius);
 	}
 
