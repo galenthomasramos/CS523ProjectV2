@@ -27,21 +27,19 @@ public class Trail {
 	}
 	
 	public boolean isColliding (Ant ant) {
-		int i=0;
-		for(Circle circ: circleList){
-			
+		for(int j=circleList.size()-1;j>=0;j--){
+			Circle circ = circleList.get(j);
 			boolean isColliding = ant.isColliding(circ);
 			
 			//change color attribute of ant that is colliding with trail:
 			if(isColliding){
 				ant.color = 0;
-				current_collision = i;
+				current_collision = j;
 				System.out.println("isColliding = " + isColliding);
 				return true;
 			}
 			else
 				ant.color = 255;
-			i++;
 		}
 		return false;
 	}
