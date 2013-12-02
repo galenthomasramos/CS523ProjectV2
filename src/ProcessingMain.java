@@ -69,19 +69,20 @@ public class ProcessingMain extends PApplet {
 		colony1.render();
 		
 		int old = tempTrail.current_collision;
-		System.out.println("last "+last_known_pos);
+//		System.out.println("last "+last_known_pos);
 		collisionDetected = isCollidingWithTrail();
 		
 		if (collisionDetected) {
 			System.out.println("Collision detected");
 			System.out.println("New collision position is circle "+tempTrail.current_collision + " old "+old);
-			if (old<tempTrail.current_collision-50 && old>0) {
+			if (old<tempTrail.current_collision-30 && old>0) {
 				last_known_pos = old;
 				cheating = true;
 			}
-			else if (tempTrail.current_collision<=last_known_pos)
+			else if (tempTrail.current_collision<=last_known_pos) {
 				cheating = false;
-				//stop();
+				last_known_pos = tempTrail.current_collision;
+			}
 		} else {
 			System.out.println("Last known position is circle "+tempTrail.current_collision);
 		}
