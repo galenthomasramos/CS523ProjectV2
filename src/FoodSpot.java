@@ -10,16 +10,20 @@ public class FoodSpot {
 	Circle buffer;
 	int color;
 	int radius;
+	
 	Trail trail;
 	boolean displayTrail;
+	
+	Colony colony;
 
-	public FoodSpot(PApplet _parent, PVector _position, int _radius, int _color) {
+	public FoodSpot(PApplet _parent, PVector _position, int _radius, int _color, Colony _colony) {
 		parent = _parent;
 		position = _position;
 		radius = _radius;
 		buffer = new Circle (position.x, position.y, radius);
 		color = _color;
 		displayTrail = false;
+		colony = _colony;
 	}
 
 	public void render() {
@@ -40,7 +44,7 @@ public class FoodSpot {
 	{
 		boolean colliding = false;
 		
-		System.out.println("FoodSpot Collision Detected");
+
 		
 		float circleDistanceX = PApplet.abs(buffer.point.getX() - c.point.getX());
 		float circleDistanceY = PApplet.abs(buffer.point.getY() - c.point.getY());
@@ -54,13 +58,13 @@ public class FoodSpot {
 			if(!displayTrail)
 				displayTrail = true;
 			
-			if(trail != null){
-				
+			if(trail == null){
+				trail = new Trail(parent, 10);
+				trail.populate(this.position, colony.position);
 			}
 		}
 		
 		return (colliding);
-		
 	}
 
 }

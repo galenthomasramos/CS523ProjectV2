@@ -6,7 +6,10 @@ import java.util.GregorianCalendar;
 import java.util.Random;
 
 import processing.core.*;
+
 //import ketai.sensors.*;
+//import ketai.ui.*;
+
 import controlP5.*;
 
 public class ProcessingMain extends PApplet {
@@ -19,7 +22,7 @@ public class ProcessingMain extends PApplet {
 	PVector colony1Pos;
 	
 	ArrayList<FoodSpot> foodSpots;
-	ArrayList<Trail> trails;
+	//ArrayList<Trail> trails;
 	
 	PVector mappedVector = new PVector(0,0);
 	
@@ -48,13 +51,17 @@ public class ProcessingMain extends PApplet {
 	
 	PImage antImage;
 	
+	//KetaiVibrate motor;
+	
 	public void setup(){
 		colorMode(HSB);
-		size(400, 400);
+		size(1100, 550);
 		tempTrail = new Trail(this, 10);
 		orientation(LANDSCAPE);
 		textAlign(CENTER, CENTER);
 		textSize(12);
+		
+		//motor = new KetaiVibrate(this);
 		
 		trailCollisionDetected = false;
 		foodSpotCollisionDetected = false;
@@ -68,6 +75,7 @@ public class ProcessingMain extends PApplet {
 		colony1 = new Colony(this,0, colony1Pos, 35, 220);
 		colony1.setAnts(400);
 		
+		/*
 		cp5.addButton("createTrail")
 		    .setValue(1)
 		    .setPosition(10,this.height - (int)buttonSize.y)
@@ -80,6 +88,7 @@ public class ProcessingMain extends PApplet {
 			.setPosition(20 + buttonSize.x, height - buttonSize.y)
 		    .setSize((int)buttonSize.x,(int)buttonSize.y)
 		    ;
+		*/
 		
 		antImage = loadImage("files/pics/ant.png");
 		antImage.resize(0, (height/15));
@@ -99,7 +108,7 @@ public class ProcessingMain extends PApplet {
 		redistributeAnts();		
 		
 		foodSpots = new ArrayList<FoodSpot>();
-		trails = new ArrayList<Trail>();
+		//trails = new ArrayList<Trail>();
 		popFoodSpots();
 	}
 
@@ -139,7 +148,7 @@ public class ProcessingMain extends PApplet {
 				
 //			System.out.println("Last known position is circle "+tempTrail.current_collision);
 		}
-		
+		foodSpotCollisionDetected = isCollidingWithFoodSpot();
 		if(foodSpotCollisionDetected){
 			
 			
@@ -202,7 +211,7 @@ public class ProcessingMain extends PApplet {
 				new PVector(width * 0.1f, height * 0.9f)};
 		
 		for(int i = 0; i < 5; i++)
-			foodSpots.add(new FoodSpot(this, pVecs[i], foodSpotRadius, 105));
+			foodSpots.add(new FoodSpot(this, pVecs[i], foodSpotRadius, 105, colony1));
 	}
 	
 	public void renderFoodSpots(){
@@ -210,11 +219,13 @@ public class ProcessingMain extends PApplet {
 			fs.render();
 	}
 	
+	/*
 	public void popTrail(FoodSpot fs){
-		Trail newTrail = new Trail(this, 10, fs);
+		Trail newTrail = new Trail(this, 10);
 		newTrail.populate(fs.position, colony1.position);//   *New random populate function
 		trails.add(newTrail);
 	}
+	*/
 	
 	// between 3 and 10 seconds
 	private int randomWait() {
@@ -235,6 +246,8 @@ public class ProcessingMain extends PApplet {
 			System.out.println("lat/lon/alt/acc: " + latitude + "/" + longitude + "/" + altitude + "/" + accuracy);
 			}
 */
+	
+	/*
 	public void createTrail(int theValue){
 		System.out.println("within Create Trail");
 //		tempTrail.randomPopulate(colony1Pos.x,colony1Pos.y,width-1, height-1);
@@ -242,6 +255,7 @@ public class ProcessingMain extends PApplet {
 		ellipse(width-20, height-20, 50, 50);
 		tempTrail.interpolateTrail();
 	}
+	*/
 	
 
 	public void drawExplorers(){
@@ -254,8 +268,11 @@ public class ProcessingMain extends PApplet {
 	public boolean isCollidingWithTrail(){
 		
 		for(Explorer exp: explorersList){
-			if(tempTrail.isColliding(exp))
-				return true;
+			for(FoodSpot fs: foodSpots){
+				if(fs.trail != null)
+					if(fs.trail.isColliding(exp))
+						return true;
+			}
 		}
 		
 		return false;
@@ -274,4 +291,15 @@ public class ProcessingMain extends PApplet {
 
 		return new PVector(mappedLat, mappedLon);
 	}
+	
+	/*
+	void vibrate(long[] pattern){
+		if(motor.hasVibrator())
+			motor.vibrate();
+		else {
+			println("No Vibration Service Available");
+		}
+		
+	}
+	*/
 }

@@ -148,6 +148,8 @@ public class Trail {
 		pop (from.x, from.x+dx/2, from.y,from.y+dy/2, (steps-1)/2);
 		pop (from.x+dx/2, to.x, from.y+dy/2, to.y, (steps-1)/2);
 		circleList.add(new Circle(to.x, to.y, circleRadius));
+		
+		interpolateTrail();
 	}
 	
 	private void pop(float fromx, float tox, float fromy, float toy, int steps) {
