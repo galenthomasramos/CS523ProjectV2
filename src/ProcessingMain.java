@@ -51,12 +51,12 @@ public class ProcessingMain extends PApplet {
 		   .setSize((int)buttonSize.x,(int)buttonSize.y)
 		   ;
 		
-		tempTrail.randomPopulate();
-		tempTrail.interpolateTrail();
-		
 		frameRate(60);
 		colony1Pos = new PVector(this.width/5, this.height/5);
 		colony1 = new Colony(this, colony1Pos, 35, 220);
+		
+		tempTrail.randomPopulate(colony1Pos.x,colony1Pos.y,width, height);
+		tempTrail.interpolateTrail();
 		
 		explorersList = new ArrayList<Explorer>();
 		explorersList.add(new Explorer(this, new PVector(0,0), 10, 0xFF0000));
@@ -117,7 +117,7 @@ public class ProcessingMain extends PApplet {
 */
 	public void createTrail(int theValue){
 		System.out.println("within Create Trail");
-		tempTrail.randomPopulate();
+		tempTrail.randomPopulate(colony1Pos.x,colony1Pos.y,width, height);
 		tempTrail.interpolateTrail();
 	}
 	

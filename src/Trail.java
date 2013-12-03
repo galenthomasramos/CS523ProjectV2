@@ -2,6 +2,7 @@
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import processing.core.*;
 
@@ -111,7 +112,7 @@ public class Trail {
 		}
 	}
 	
-	public void randomPopulate(){
+	public void randomPopulate(float minx,float miny, float maxx, float maxy){
 		
 		float divX = 5;
 		float divY = 10;
@@ -123,17 +124,20 @@ public class Trail {
 		float mappedY;
 		
 		int randInt;
-		int randX;
+		float randX;
 		
 		ArrayList<PVector> pvecs= new ArrayList<PVector>();
 		
 		circleList = new ArrayList<Circle>();
-		
-		for(int i = 0; i < divY; i++){
-			mappedY = parentApplet.map(i, 0, divY, 0, parentApplet.height);
-			randX = (int) (Math.random() * parentApplet.width);
+
+		Random rn = new Random();
+		for(int i = 0; i < divY-1; i++){
+			mappedY = parentApplet.map(divY-i, 0, divY, miny, (maxy));
+			randX = minx+ (int) (rn.nextInt(4) * (maxx-minx)/4);
 			circleList.add(new Circle(randX, mappedY, circleRadius));
 		}
+		mappedY = parentApplet.map(0, 0, divY, miny, (maxy));
+		circleList.add(new Circle(minx, mappedY, circleRadius));
 		
 	}
 	
