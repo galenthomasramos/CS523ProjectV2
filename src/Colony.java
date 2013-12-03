@@ -24,7 +24,7 @@ public class Colony {
 		parent.stroke(0);
 		parent.strokeWeight(2);
 		//parent.fill(color);
-		parent.fill(this.parent.color(color));
+		parent.fill(this.parent.color(color, 100, 255));
 		parent.ellipse(buffer.point.getX(),buffer.point.getY(), 2*buffer.radius, 2*buffer.radius);
 		System.out.println("IN COLONY RENDER: " + "buffer.x: " + buffer.point.getX() + "  buffer.y: " + buffer.point.getY() + "2*buffer.radius: " + 2*buffer.radius );
 	}

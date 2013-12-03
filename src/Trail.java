@@ -34,13 +34,13 @@ public class Trail {
 			
 			//change color attribute of ant that is colliding with trail:
 			if(isColliding){
-				ant.color = 0;
+				ant.color = 255;
 				current_collision = j;
 				System.out.println("isColliding = " + isColliding);
 				return true;
 			}
 			else
-				ant.color = 255;
+				ant.color = 150;
 		}
 		return false;
 	}
