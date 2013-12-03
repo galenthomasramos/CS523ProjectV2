@@ -136,20 +136,39 @@ public class Trail {
 
 	
 	public void populate(PVector from, PVector to) {
-		int spots = 10;
+		int steps = 10;
 		Random rn = new Random();
-		int dx = 10;
-		int dy = 10;
+		float dx = to.x-from.x;
+		float dy = to.y-from.y;
 		
 		circleList = new ArrayList<Circle>();
-		
-		circleList.add(new Circle(from.x, from.y, circleRadius));
-		for(int i=1;i<spots-1;i++) {
-			float mappedY = parentApplet.map(spots-i, 0, dy, from.y, (to.y));
-			float mappedX = parentApplet.map(spots-i, 0, dy, from.x, (to.x));
-			circleList.add(new Circle(mappedX, mappedY, circleRadius));
-		}
+
+		float x=from.x,y=from.y;
+		circleList.add(new Circle(x, y, circleRadius));
+		pop (from.x, from.x+dx/2, from.y,from.y+dy/2, (steps-1)/2);
+		pop (from.x+dx/2, to.x, from.y+dy/2, to.y, (steps-1)/2);
 		circleList.add(new Circle(to.x, to.y, circleRadius));
+	}
+	
+	private void pop(float fromx, float tox, float fromy, float toy, int steps) {
+		float dx = tox-fromx;
+		float dy = toy-fromy;
+		if (steps>=1) {
+			pop (fromx, fromx+dx/2, fromy,fromy+dy/2, (steps-1)/2);
+			pop (fromx+dx/2, tox, fromy+dy/2, toy, (steps-1)/2);
+		} else {
+			float incx, incy;
+			Random rn = new Random();
+			incx = rn.nextInt(60)-25;
+			incy = rn.nextInt(60)-25;
+			if(fromx+incx>parentApplet.width||fromx+incx<0) {
+				incx *= -1;
+			}
+			if(fromy+incy>parentApplet.height||fromy+incy<0) {
+				incy *= -1;
+			}
+			circleList.add(new Circle(fromx+incx, fromy+incy, circleRadius));
+		}
 	}
 	
 	public void randomPopulate(float minx,float miny, float maxx, float maxy){
