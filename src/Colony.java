@@ -34,21 +34,21 @@ public class Colony {
 	public void newFoodSpot(float multiplier, int id) {
 		eventlog.add(new ColonyEvent("Ant "+id+" found a food spot, adding "+ants*(multiplier-1)+" ants to colony",
 					(int)(ants*(multiplier-1)), true));
-//		System.out.println(eventlog.get(eventlog.size()-1).description);
+		System.out.println(eventlog.get(eventlog.size()-1).description);
 		ants *= multiplier;
 	}
 	
 	public void lostAntOrCheating(int players, int id) {
 		eventlog.add(new ColonyEvent("Ant "+id+" is cheating or lost, removing "+ants/(players*STEPS)+" ants from colony",
 				(int)(ants/(players*STEPS)), false));
-//		System.out.println(eventlog.get(eventlog.size()-1).description);
+		System.out.println(eventlog.get(eventlog.size()-1).description);
 		ants -= ants/(players*STEPS);
 	}
 	
 	public void colonyDutyFulfilled(int n, int id) {
 		eventlog.add(new ColonyEvent("Ant "+id+" fulfilled a colony duty, adding "+n+" ants to colony",
 				n, true));
-//		System.out.println(eventlog.get(eventlog.size()-1).description);
+		System.out.println(eventlog.get(eventlog.size()-1).description);
 		ants += n;
 	}
 

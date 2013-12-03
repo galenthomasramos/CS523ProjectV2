@@ -194,7 +194,13 @@ public class ProcessingMain extends PApplet {
 		}
 			
 		//foodSpotCollisionEvent();
-
+		if(colony1.isColliding(explorersList.get(0).buffer) && !cheating && trail>=0) {
+			cheating = false;
+			last_known_pos = 3;
+			last_collision = null;
+			trail = -1;
+			started_cheating = null;
+		}
 		
 		fill(255);
 		textSize(14);
