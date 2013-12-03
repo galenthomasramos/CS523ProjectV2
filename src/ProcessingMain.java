@@ -51,31 +51,22 @@ public class ProcessingMain extends PApplet {
 		   .setSize((int)buttonSize.x,(int)buttonSize.y)
 		   ;
 		
-<<<<<<< HEAD
+
 		cp5.addButton("createFoodSource")
 		.setValue(2)
-		.setPosition(thePVector)
-		
-		tempTrail.randomPopulate();
-		tempTrail.interpolateTrail();
-		
+		.setPosition(20 + buttonSize.x, height - buttonSize.y)
+	    .setSize((int)buttonSize.x,(int)buttonSize.y)
+	    ;
+
 		frameRate(60);
 		colony1Pos = new PVector(this.width/5, this.height/5);
-		colony1 = new Colony(this, colony1Pos, 35, 40);
+		colony1 = new Colony(this,0, colony1Pos, 35, 40);
 		
 		explorersList = new ArrayList<Explorer>();
-		explorersList.add(new Explorer(this, new PVector(0,0), 10, 150));
-=======
-		frameRate(60);
-		colony1Pos = new PVector(this.width/5, this.height/5);
-		colony1 = new Colony(this,0, colony1Pos, 35, 220);
+		explorersList.add(new Explorer(this,0, new PVector(0,0), 10, 150));
 		
 		tempTrail.randomPopulate(colony1Pos.x,colony1Pos.y,width, height);
 		tempTrail.interpolateTrail();
-		
-		explorersList = new ArrayList<Explorer>();
-		explorersList.add(new Explorer(this,0, new PVector(0,0), 10, 0xFF0000));
->>>>>>> 84ee3a74535e42dc8ebe0725bd88e15565137a84
 	}
 	
 	public void draw(){
