@@ -92,13 +92,11 @@ public class ProcessingMain extends PApplet {
 		
 		tempTrail.randomPopulate(colony1Pos.x,colony1Pos.y,width, height);
 		tempTrail.interpolateTrail();
-<<<<<<< HEAD
-=======
 		
 		last_colony_duty = new Date();
 		wait = randomWait();
 		redistributeAnts();		
->>>>>>> ea43d2231ca5b408b739ebafe94cf1d7d38ec702
+
 	}
 	
 	// between 3 and 10 seconds
@@ -176,18 +174,15 @@ background(150);
 			 //text("Latitude: " + latitude + "\n" + "Longitude: " + longitude + "\n" + "Altitude: " + altitude + "\n" + "Accuracy: " + accuracy + "\n" + "Provider: " + location.getProvider(), width/2, height/2);
 		
 		text("Cheating: "+Boolean.toString(cheating), width*0.8f, height*0.9f);
-<<<<<<< HEAD
-		this.image(antImage, width * 0.8f, height * 0.1f);
-		
-=======
 		text("Colony: "+Integer.toString(colony1.ants), width*0.1f, height*0.1f);
+		this.image(antImage, width * 0.8f, height * 0.1f);
 	}
 	
 	public void redistributeAnts () {
 		for (Explorer e : explorersList) {
 			e.setAntsNumber(colony1.ants/players);
 		}
->>>>>>> ea43d2231ca5b408b739ebafe94cf1d7d38ec702
+
 	}
 /*
 	public void onLocationEvent(double _latitude, double _longitude,double _altitude, float _accuracy) { // longitude = _longitude;
