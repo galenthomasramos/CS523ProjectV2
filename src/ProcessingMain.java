@@ -3,6 +3,7 @@
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Random;
 
 import processing.core.*;
 //import ketai.sensors.*;
@@ -35,6 +36,10 @@ public class ProcessingMain extends PApplet {
 	Date last_collision;
 	Date started_cheating;
 	int THRESHOLD = 2000;
+
+	int wait = -1;
+
+	Date last_colony_duty;
 	
 	public void setup(){
 		colorMode(HSB);
@@ -75,17 +80,27 @@ public class ProcessingMain extends PApplet {
 
 		colony1Pos = new PVector(this.width/5, this.height/5);
 		colony1 = new Colony(this,0, colony1Pos, 35, 40);
+		colony1.setAnts(400);
 		
 		explorersList = new ArrayList<Explorer>();
-		explorersList.add(new Explorer(this,0, new PVector(0,0), 10, 150));
+		explorersList.add(new Explorer(this,0, new PVector(0,0), 10, 150,1));
 		
 		tempTrail.randomPopulate(colony1Pos.x,colony1Pos.y,width, height);
 		tempTrail.interpolateTrail();
-
+		
+		last_colony_duty = new Date();
+		wait = randomWait();
+		redistributeAnts();		
 	}
 	
+	// between 3 and 10 seconds
+	private int randomWait() {
+		Random rn = new Random();
+		return 1000*(rn.nextInt(7));
+	}
+
 	public void draw(){
-		background(150);	
+background(150);	
 		
 		tempTrail.render();
 		colony1.render();
@@ -97,8 +112,8 @@ public class ProcessingMain extends PApplet {
 		Date now = new Date();
 		if (collisionDetected) {
 			last_collision = GregorianCalendar.getInstance().getTime();
-			System.out.println("Collision detected");
-			System.out.println("New collision position is circle "+tempTrail.current_collision + " old "+old);
+//			System.out.println("Collision detected");
+//			System.out.println("New collision position is circle "+tempTrail.current_collision + " old "+old);
 			if (old<tempTrail.current_collision-30 && old>0) {
 				last_known_pos = old;
 				cheating = true;
@@ -112,19 +127,26 @@ public class ProcessingMain extends PApplet {
 		} else {
 			if (last_collision != null && !cheating)
 				if (now.getTime()-last_collision.getTime() > THRESHOLD){
-					System.out.println("Registering as cheating");
+//					System.out.println("Registering as cheating");
 					cheating = true;
 					started_cheating = new Date();
 				}
 				
-			System.out.println("Last known position is circle "+tempTrail.current_collision);
+//			System.out.println("Last known position is circle "+tempTrail.current_collision);
 		}
 		
 		drawExplorers();
 		
 		if(cheating && now.getTime()-started_cheating.getTime()>THRESHOLD) {
 			started_cheating = now;
-			colony1.lostAntOrCheating(platform);
+			if (explorersList.get(0).ants >0)
+				colony1.lostAntOrCheating(players,explorersList.get(0).antID);
+		}
+		
+		if(now.getTime()-last_colony_duty.getTime()>wait) {
+			last_colony_duty = now;
+			wait = randomWait();
+			colony1.colonyDutyFulfilled(explorersList.get(0).ants/10,explorersList.get(0).antID);
 		}
 			
 
@@ -145,6 +167,13 @@ public class ProcessingMain extends PApplet {
 		//}
 			 //text("Latitude: " + latitude + "\n" + "Longitude: " + longitude + "\n" + "Altitude: " + altitude + "\n" + "Accuracy: " + accuracy + "\n" + "Provider: " + location.getProvider(), width/2, height/2);
 		text("Cheating: "+Boolean.toString(cheating), width*0.8f, height*0.9f);
+		text("Colony: "+Integer.toString(colony1.ants), width*0.1f, height*0.1f);
+	}
+	
+	public void redistributeAnts () {
+		for (Explorer e : explorersList) {
+			e.setAntsNumber(colony1.ants/players);
+		}
 	}
 /*
 	public void onLocationEvent(double _latitude, double _longitude,double _altitude, float _accuracy) { // longitude = _longitude;

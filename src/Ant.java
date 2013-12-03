@@ -13,14 +13,17 @@ public abstract class Ant {
 	int radius;
 	int color;
 	int colonyID;
+	int antID = 0;
+	int ants = 1;
 
-	public Ant(PApplet _parent,int colony, PVector _position, int _radius, int _color) {
+	public Ant(PApplet _parent,int colony, PVector _position, int _radius, int _color, int id) {
 		colonyID = colony;
 		parent = _parent;
 		position = _position;
 		radius = _radius;
 		buffer = new Circle (this.position.x, this.position.y, radius);
 		color = _color;
+		antID = id;
 	}
 
 	public void render(){
@@ -31,6 +34,10 @@ public abstract class Ant {
 		parent.ellipse(buffer.point.getX(),buffer.point.getY(), 2*buffer.radius, 2*buffer.radius);
 		
 		//System.out.println("IN ANT RENDER:  buffer.point.getX(): " + buffer.point.getX() + " buffer.point.getY(): " + buffer.point.getY());
+	}
+	
+	public void setAntsNumber(int n) {
+		ants = n;
 	}
 	
 	boolean isColliding(Circle c)
