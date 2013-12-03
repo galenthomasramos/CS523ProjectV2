@@ -138,11 +138,11 @@ public class ProcessingMain extends PApplet {
 		Date now = new Date();
 		
 		if (trailCollisionDetected) {
-			last_collision = GregorianCalendar.getInstance().getTime();
 //			System.out.println("Collision detected");
 //			System.out.println("New collision position is circle "+colliding.current_collision + " old "+old+" last "+last_known_pos);
 //			System.out.println("last trail "+trail+" this trail "+c);
 			if (trail == c || trail<0) {
+				last_collision = GregorianCalendar.getInstance().getTime();
 				if (old<colliding.current_collision-30 && old>0) {
 					last_known_pos = old;
 					trail = c;
@@ -157,20 +157,20 @@ public class ProcessingMain extends PApplet {
 				if(!cheating)
 					last_known_pos = colliding.current_collision;
 			}
-			else {
+//			else {
+//				cheating = true;
+//				started_cheating = new Date();
+//			}
+		}
+		if (last_collision != null && !cheating)
+			if (now.getTime()-last_collision.getTime() > THRESHOLD){
+//					System.out.println("Registering as cheating");
 				cheating = true;
 				started_cheating = new Date();
 			}
-		} else {
-			if (last_collision != null && !cheating)
-				if (now.getTime()-last_collision.getTime() > THRESHOLD){
-//					System.out.println("Registering as cheating");
-					cheating = true;
-					started_cheating = new Date();
-				}
 				
 //			System.out.println("Last known position is circle "+tempTrail.current_collision);
-		}
+		
 		foodSpotCollisionDetected = isCollidingWithFoodSpot();
 		if(foodSpotCollisionDetected){
 			
