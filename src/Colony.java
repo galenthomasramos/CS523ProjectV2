@@ -9,8 +9,10 @@ public class Colony {
 	Circle buffer;
 	int color;
 	int radius;
+	int ID = 0;
 	
-	public Colony(PApplet _parent, PVector _position, int _radius, int _color) {
+	public Colony(PApplet _parent, int id, PVector _position, int _radius, int _color) {
+		ID = ID;
 		parent = _parent;
 		position = _position;
 		radius = _radius;
