@@ -45,7 +45,7 @@ public class ProcessingMain extends PApplet {
 	
 	public void setup(){
 		colorMode(HSB);
-		size(800, 480);
+		size(1500, 600);
 		tempTrail = new Trail(this, 10);
 		orientation(LANDSCAPE);
 		textAlign(CENTER, CENTER);
@@ -62,9 +62,6 @@ public class ProcessingMain extends PApplet {
 		colony1 = new Colony(this,0, colony1Pos, 35, 220);
 		colony1.setAnts(400);
 		
-		tempTrail.randomPopulate(colony1Pos.x,colony1Pos.y,width-1, height-1);
-		tempTrail.interpolateTrail();
-		
 		cp5.addButton("createTrail")
 		    .setValue(1)
 		    .setPosition(10,this.height - (int)buttonSize.y)
@@ -79,7 +76,7 @@ public class ProcessingMain extends PApplet {
 		    ;
 		
 		antImage = loadImage("files/pics/ant.png");
-		antImage.resize(0, (height/20));
+		antImage.resize(0, (height/15));
 
 		frameRate(60);
 
@@ -89,24 +86,16 @@ public class ProcessingMain extends PApplet {
 		
 		explorersList = new ArrayList<Explorer>();
 		explorersList.add(new Explorer(this,0, new PVector(0,0), 10, 150,1));
-		
-		tempTrail.randomPopulate(colony1Pos.x,colony1Pos.y,width, height);
-		tempTrail.interpolateTrail();
+
 		
 		last_colony_duty = new Date();
 		wait = randomWait();
 		redistributeAnts();		
 
 	}
-	
-	// between 3 and 10 seconds
-	private int randomWait() {
-		Random rn = new Random();
-		return 1000*(rn.nextInt(7));
-	}
 
 	public void draw(){
-background(150);	
+		background(150);	
 		
 		tempTrail.render();
 		colony1.render();
@@ -156,26 +145,20 @@ background(150);
 		}
 			
 
-		//if (location.getProvider() == "none")
-			//text("Location data is unavailable. \n" + "Please check your location settings.", width/2, height/2);
-		/*
-		else if	(second() % 2 == 0){
-			mappedVector = convertCoords(latitude, longitude);
-			fill(255);
-			stroke(0);
-			strokeWeight(2);
-			ellipse(mappedVector.x, mappedVector.y, 5,5);
-		}
-		*/
+		fill(255);
+		textSize(14);
+		text("Cheating: "+Boolean.toString(cheating), width*0.92f, height*0.9f);
+		text("Colony: "+Integer.toString(colony1.ants), width*0.92f, height*0.15f);
 		
-		//else{
-
-		//}
-			 //text("Latitude: " + latitude + "\n" + "Longitude: " + longitude + "\n" + "Altitude: " + altitude + "\n" + "Accuracy: " + accuracy + "\n" + "Provider: " + location.getProvider(), width/2, height/2);
-		
-		text("Cheating: "+Boolean.toString(cheating), width*0.8f, height*0.9f);
-		text("Colony: "+Integer.toString(colony1.ants), width*0.1f, height*0.1f);
-		this.image(antImage, width * 0.8f, height * 0.1f);
+		textSize(22);
+		text("Score:", width * 0.92f, height * 0.1f);
+		this.image(antImage, width * 0.87f, height * 0.07f);
+	}
+	
+	// between 3 and 10 seconds
+	private int randomWait() {
+		Random rn = new Random();
+		return 1000*(rn.nextInt(7));
 	}
 	
 	public void redistributeAnts () {
