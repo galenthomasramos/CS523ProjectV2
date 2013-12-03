@@ -46,17 +46,17 @@ public class ProcessingMain extends PApplet {
 		cp5 = new ControlP5(this);
 		
 		cp5.addButton("createTrail")
-		   .setValue(1)
-	       .setPosition(10,this.height - (int)buttonSize.y)
-		   .setSize((int)buttonSize.x,(int)buttonSize.y)
-		   ;
+		    .setValue(1)
+		    .setPosition(10,this.height - (int)buttonSize.y)
+		    .setSize((int)buttonSize.x,(int)buttonSize.y)
+		    ;
 		
 
 		cp5.addButton("createFoodSource")
-		.setValue(2)
-		.setPosition(20 + buttonSize.x, height - buttonSize.y)
-	    .setSize((int)buttonSize.x,(int)buttonSize.y)
-	    ;
+			.setValue(2)
+			.setPosition(20 + buttonSize.x, height - buttonSize.y)
+		    .setSize((int)buttonSize.x,(int)buttonSize.y)
+		    ;
 
 		frameRate(60);
 		colony1Pos = new PVector(this.width/5, this.height/5);
