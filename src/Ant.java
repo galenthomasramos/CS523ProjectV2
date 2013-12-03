@@ -12,8 +12,10 @@ public abstract class Ant {
 	Circle buffer;
 	int radius;
 	int color;
+	int colonyID;
 
-	public Ant(PApplet _parent, PVector _position, int _radius, int _color) {
+	public Ant(PApplet _parent,int colony, PVector _position, int _radius, int _color) {
+		colonyID = colony;
 		parent = _parent;
 		position = _position;
 		radius = _radius;

@@ -10,9 +10,9 @@ public class Explorer extends Ant {
 	List<PVector> trace = new ArrayList<PVector>();
 	List<Circle> circlesTrail = new ArrayList<Circle>();
 
-	public Explorer(PApplet _parent, PVector _position, int _radius,
+	public Explorer(PApplet _parent,int colony, PVector _position, int _radius,
 			int _color) {
-		super(_parent, _position, _radius, _color);
+		super(_parent, colony, _position, _radius, _color);
 	}
 
 	/* After the GPS sampling interval has passed,
