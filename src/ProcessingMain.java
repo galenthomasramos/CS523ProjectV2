@@ -48,7 +48,7 @@ public class ProcessingMain extends PApplet {
 	
 	public void setup(){
 		colorMode(HSB);
-		size(1500, 600);
+		size(400, 400);
 		tempTrail = new Trail(this, 10);
 		orientation(LANDSCAPE);
 		textAlign(CENTER, CENTER);
@@ -208,7 +208,9 @@ public class ProcessingMain extends PApplet {
 */
 	public void createTrail(int theValue){
 		System.out.println("within Create Trail");
-		tempTrail.randomPopulate(colony1Pos.x,colony1Pos.y,width-1, height-1);
+//		tempTrail.randomPopulate(colony1Pos.x,colony1Pos.y,width-1, height-1);
+		tempTrail.populate(new PVector(width-20,height-20), colony1Pos);
+		ellipse(width-20, height-20, 50, 50);
 		tempTrail.interpolateTrail();
 	}
 	

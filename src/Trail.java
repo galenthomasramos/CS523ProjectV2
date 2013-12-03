@@ -132,6 +132,23 @@ public class Trail {
 	}
 
 	
+	public void populate(PVector from, PVector to) {
+		int spots = 10;
+		Random rn = new Random();
+		int dx = 10;
+		int dy = 10;
+		
+		circleList = new ArrayList<Circle>();
+		
+		circleList.add(new Circle(from.x, from.y, circleRadius));
+		for(int i=1;i<spots-1;i++) {
+			float mappedY = parentApplet.map(spots-i, 0, dy, from.y, (to.y));
+			float mappedX = parentApplet.map(spots-i, 0, dy, from.x, (to.x));
+			circleList.add(new Circle(mappedX, mappedY, circleRadius));
+		}
+		circleList.add(new Circle(to.x, to.y, circleRadius));
+	}
+	
 	public void randomPopulate(float minx,float miny, float maxx, float maxy){
 
 		
