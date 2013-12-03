@@ -33,7 +33,9 @@ public class ProcessingMain extends PApplet {
 	
 	ArrayList<Explorer> explorersList;
 
-	boolean collisionDetected;
+	boolean trailCollisionDetected;
+	boolean foodSpotCollisionDetected;
+	
 	int players = 4;
 	int last_known_pos = 3;
 	Date last_collision;
@@ -54,7 +56,8 @@ public class ProcessingMain extends PApplet {
 		textAlign(CENTER, CENTER);
 		textSize(12);
 		
-		collisionDetected = false;
+		trailCollisionDetected = false;
+		foodSpotCollisionDetected = false;
 		
 		PVector buttonSize = new PVector(80,20);
 		
@@ -108,10 +111,11 @@ public class ProcessingMain extends PApplet {
 		
 		int old = tempTrail.current_collision;
 //		System.out.println("last "+last_known_pos);
-		collisionDetected = isCollidingWithTrail();
-
+		trailCollisionDetected = isCollidingWithTrail();
 		Date now = new Date();
-		if (collisionDetected) {
+		
+		
+		if (trailCollisionDetected) {
 			last_collision = GregorianCalendar.getInstance().getTime();
 //			System.out.println("Collision detected");
 //			System.out.println("New collision position is circle "+tempTrail.current_collision + " old "+old);
@@ -136,8 +140,14 @@ public class ProcessingMain extends PApplet {
 //			System.out.println("Last known position is circle "+tempTrail.current_collision);
 		}
 		
-		drawExplorers();
+		if(foodSpotCollisionDetected){
+			
+			
+		}
+		
 		renderFoodSpots();
+		drawExplorers();
+
 		
 		if(cheating && now.getTime()-started_cheating.getTime()>THRESHOLD) {
 			started_cheating = now;
@@ -151,7 +161,9 @@ public class ProcessingMain extends PApplet {
 			colony1.colonyDutyFulfilled(explorersList.get(0).ants/10,explorersList.get(0).antID);
 		}
 			
+		//foodSpotCollisionEvent();
 
+		
 		fill(255);
 		textSize(14);
 		text("Cheating: "+Boolean.toString(cheating), width*0.92f, height*0.9f);
@@ -160,6 +172,23 @@ public class ProcessingMain extends PApplet {
 		textSize(22);
 		text("Score:", width * 0.92f, height * 0.1f);
 		this.image(antImage, width * 0.87f, height * 0.07f);
+	}
+	
+	//public void foodSpotCollisionEvent(){
+	public boolean isCollidingWithFoodSpot(){
+		
+		boolean isColliding = false;
+		
+		for(Explorer exp: explorersList){
+			for(FoodSpot fs: foodSpots){
+				if(fs.isColliding(exp.buffer)){
+					isColliding = true;
+					System.out.println("Is colliding with food spot");
+				}
+			}
+		}
+		
+		return isColliding;
 	}
 	
 	public void popFoodSpots(){
@@ -183,7 +212,7 @@ public class ProcessingMain extends PApplet {
 	
 	public void popTrail(FoodSpot fs){
 		Trail newTrail = new Trail(this, 10, fs);
-		//newTrail.populate(fs.position, colony1.position);   *New random populate function
+		newTrail.populate(fs.position, colony1.position);//   *New random populate function
 		trails.add(newTrail);
 	}
 	

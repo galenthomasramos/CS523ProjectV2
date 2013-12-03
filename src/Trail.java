@@ -12,7 +12,7 @@ public class Trail {
 	int current_collision = -1;
 	int color = 255;
 	//ArrayList<FoodSpot> foodSpots =  new ArrayList<FoodSpot>();
-	FoodSpot foodSpot;
+	//FoodSpot foodSpot;
 	
 	public Trail(PApplet _parent, float circleRadius){
 		this.circleRadius = circleRadius;
@@ -20,12 +20,14 @@ public class Trail {
 		circleList = new ArrayList<Circle>();
 	}
 	
+	/*
 	public Trail(PApplet _parent, float circleRadius, FoodSpot _foodSpot){
 		this.circleRadius = circleRadius;
 		parentApplet = _parent;
 		circleList = new ArrayList<Circle>();
 		this.foodSpot = _foodSpot;
 	}
+	*/
 	
 	public Trail(PApplet _parent, float circleRadius, int noOfFoodSpots){
 		this.circleRadius = circleRadius;
@@ -60,9 +62,10 @@ public class Trail {
 		return false;
 	}
 	
+	/*
 	public void setFoodSpot(FoodSpot fs){
 		this.foodSpot = fs;
-	}
+	} */
 	
 	//Add circles in regions of absent circles of trail
 	public void interpolateTrail(){
