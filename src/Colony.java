@@ -10,6 +10,7 @@ public class Colony {
 	int color;
 	int radius;
 	int ID = 0;
+	int ants = 0;
 	
 	public Colony(PApplet _parent, int id, PVector _position, int _radius, int _color) {
 		ID = ID;
@@ -19,6 +20,14 @@ public class Colony {
 		buffer = new Circle (position.x, position.y, radius);
 		color = _color;
 
+	}
+	
+	public void setAnts (int n) {
+		ants = n;
+	}
+	
+	public void newFoodSpot(float multiplier) {
+		ants *= multiplier;
 	}
 
 	public void render() {
