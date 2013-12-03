@@ -1,6 +1,8 @@
 //package com.cs523proj;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import processing.core.*;
 //import ketai.sensors.*;
@@ -28,7 +30,11 @@ public class ProcessingMain extends PApplet {
 	ArrayList<Explorer> explorersList;
 
 	boolean collisionDetected;
-	int last_known_pos = -1;
+	int players = 4;
+	int last_known_pos = 3;
+	Date last_collision;
+	Date started_cheating;
+	int THRESHOLD = 2000;
 	
 	public void setup(){
 		colorMode(HSB);
@@ -44,6 +50,13 @@ public class ProcessingMain extends PApplet {
 		
 		//location = new KetaiLocation(this);
 		cp5 = new ControlP5(this);
+
+		colony1Pos = new PVector(this.width/5, this.height/5);
+		colony1 = new Colony(this,0, colony1Pos, 35, 220);
+		colony1.setAnts(400);
+		
+		tempTrail.randomPopulate(colony1Pos.x,colony1Pos.y,width-1, height-1);
+		tempTrail.interpolateTrail();
 		
 		cp5.addButton("createTrail")
 		   .setValue(1)
@@ -52,11 +65,6 @@ public class ProcessingMain extends PApplet {
 		   ;
 		
 		frameRate(60);
-		colony1Pos = new PVector(this.width/5, this.height/5);
-		colony1 = new Colony(this,0, colony1Pos, 35, 220);
-		
-		tempTrail.randomPopulate(colony1Pos.x,colony1Pos.y,width, height);
-		tempTrail.interpolateTrail();
 		
 		explorersList = new ArrayList<Explorer>();
 		explorersList.add(new Explorer(this,0, new PVector(0,0), 10, 0xFF0000));
@@ -71,23 +79,40 @@ public class ProcessingMain extends PApplet {
 		int old = tempTrail.current_collision;
 //		System.out.println("last "+last_known_pos);
 		collisionDetected = isCollidingWithTrail();
-		
+
+		Date now = new Date();
 		if (collisionDetected) {
+			last_collision = GregorianCalendar.getInstance().getTime();
 			System.out.println("Collision detected");
 			System.out.println("New collision position is circle "+tempTrail.current_collision + " old "+old);
 			if (old<tempTrail.current_collision-30 && old>0) {
 				last_known_pos = old;
 				cheating = true;
+				started_cheating = new Date();
 			}
 			else if (tempTrail.current_collision<=last_known_pos) {
 				cheating = false;
+				started_cheating = null;
 				last_known_pos = tempTrail.current_collision;
 			}
 		} else {
+			if (last_collision != null && !cheating)
+				if (now.getTime()-last_collision.getTime() > THRESHOLD){
+					System.out.println("Registering as cheating");
+					cheating = true;
+					started_cheating = new Date();
+				}
+				
 			System.out.println("Last known position is circle "+tempTrail.current_collision);
 		}
 		
 		drawExplorers();
+		
+		if(cheating && now.getTime()-started_cheating.getTime()>THRESHOLD) {
+			started_cheating = now;
+			colony1.lostAntOrCheating(platform);
+		}
+			
 
 		//if (location.getProvider() == "none")
 			//text("Location data is unavailable. \n" + "Please check your location settings.", width/2, height/2);
@@ -117,7 +142,7 @@ public class ProcessingMain extends PApplet {
 */
 	public void createTrail(int theValue){
 		System.out.println("within Create Trail");
-		tempTrail.randomPopulate(colony1Pos.x,colony1Pos.y,width, height);
+		tempTrail.randomPopulate(colony1Pos.x,colony1Pos.y,width-1, height-1);
 		tempTrail.interpolateTrail();
 	}
 	

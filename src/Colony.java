@@ -29,6 +29,11 @@ public class Colony {
 	public void newFoodSpot(float multiplier) {
 		ants *= multiplier;
 	}
+	
+	public void lostAntOrCheating(int players) {
+		System.out.println("Removing "+ants/(players*60)+" ants");
+		ants -= ants/(players*60);
+	}
 
 	public void render() {
 		
@@ -37,7 +42,7 @@ public class Colony {
 		//parent.fill(color);
 		parent.fill(this.parent.color(color));
 		parent.ellipse(buffer.point.getX(),buffer.point.getY(), 2*buffer.radius, 2*buffer.radius);
-		System.out.println("IN COLONY RENDER: " + "buffer.x: " + buffer.point.getX() + "  buffer.y: " + buffer.point.getY() + "2*buffer.radius: " + 2*buffer.radius );
+//		System.out.println("IN COLONY RENDER: " + "buffer.x: " + buffer.point.getX() + "  buffer.y: " + buffer.point.getY() + "2*buffer.radius: " + 2*buffer.radius );
 	}
 
 	boolean isColliding(Circle c)
