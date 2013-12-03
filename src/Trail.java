@@ -11,13 +11,22 @@ public class Trail {
 	float circleRadius;
 	int current_collision = -1;
 	int color = 255;
-	ArrayList<FoodSpot> foodSpots =  new ArrayList<FoodSpot>();
+	//ArrayList<FoodSpot> foodSpots =  new ArrayList<FoodSpot>();
+	FoodSpot foodSpot;
 	
 	public Trail(PApplet _parent, float circleRadius){
 		this.circleRadius = circleRadius;
 		parentApplet = _parent;
 		circleList = new ArrayList<Circle>();
 	}
+	
+	public Trail(PApplet _parent, float circleRadius, FoodSpot _foodSpot){
+		this.circleRadius = circleRadius;
+		parentApplet = _parent;
+		circleList = new ArrayList<Circle>();
+		this.foodSpot = _foodSpot;
+	}
+	
 	public Trail(PApplet _parent, float circleRadius, int noOfFoodSpots){
 		this.circleRadius = circleRadius;
 		parentApplet = _parent;
@@ -49,6 +58,10 @@ public class Trail {
 				ant.color = 150;
 		}
 		return false;
+	}
+	
+	public void setFoodSpot(FoodSpot fs){
+		this.foodSpot = fs;
 	}
 	
 	//Add circles in regions of absent circles of trail
@@ -116,18 +129,11 @@ public class Trail {
 			}
 		}
 		
-		for(FoodSpot fs: this.foodSpots)
-			fs.render();
-		
 	}
-	
-	public void clearFoodSpots(){
-		this.foodSpots.clear();
-	}
+
 	
 	public void randomPopulate(float minx,float miny, float maxx, float maxy){
-		
-		int foodSpotRadius = 25;
+
 		
 		float divX = 5;
 		float divY = 10;
@@ -147,16 +153,11 @@ public class Trail {
 
 		Random rn = new Random();
 		
-		for(int i = 0; i < divY-1; i++){
+		
+		for(int i = 1; i < divY-1; i++){
 			mappedY = parentApplet.map(divY-i, 0, divY, miny, (maxy));
 			randX = minx+ (int) (rn.nextInt(4) * (maxx-minx)/4);
 			circleList.add(new Circle(randX, mappedY, circleRadius));
-			
-			if(i== 0){
-				clearFoodSpots();
-				this.foodSpots.add(new FoodSpot(parentApplet, new PVector(randX, mappedY), foodSpotRadius, 115));
-			}
-		
 		}
 		mappedY = parentApplet.map(0, 0, divY, miny, (maxy));
 		circleList.add(new Circle(minx, mappedY, circleRadius));

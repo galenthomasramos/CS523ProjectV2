@@ -18,6 +18,9 @@ public class ProcessingMain extends PApplet {
 	int colony1Color;
 	PVector colony1Pos;
 	
+	ArrayList<FoodSpot> foodSpots;
+	ArrayList<Trail> trails;
+	
 	PVector mappedVector = new PVector(0,0);
 	
 	//KetaiLocation location;
@@ -91,7 +94,10 @@ public class ProcessingMain extends PApplet {
 		last_colony_duty = new Date();
 		wait = randomWait();
 		redistributeAnts();		
-
+		
+		foodSpots = new ArrayList<FoodSpot>();
+		trails = new ArrayList<Trail>();
+		popFoodSpots();
 	}
 
 	public void draw(){
@@ -131,6 +137,7 @@ public class ProcessingMain extends PApplet {
 		}
 		
 		drawExplorers();
+		renderFoodSpots();
 		
 		if(cheating && now.getTime()-started_cheating.getTime()>THRESHOLD) {
 			started_cheating = now;
@@ -155,6 +162,31 @@ public class ProcessingMain extends PApplet {
 		this.image(antImage, width * 0.87f, height * 0.07f);
 	}
 	
+	public void popFoodSpots(){
+		
+		int foodSpotRadius = 25;
+		
+		PVector[] pVecs = {new PVector(width * 0.8f, height * 0.1f),
+				new PVector(width * 0.78f, height * 0.4f),
+				new PVector(width * 0.7f, height * 0.7f),
+				new PVector(width * 0.5f, height * 0.85f),
+				new PVector(width * 0.1f, height * 0.9f)};
+		
+		for(int i = 0; i < 5; i++)
+			foodSpots.add(new FoodSpot(this, pVecs[i], foodSpotRadius, 105));
+	}
+	
+	public void renderFoodSpots(){
+		for (FoodSpot fs: foodSpots)
+			fs.render();
+	}
+	
+	public void popTrail(FoodSpot fs){
+		Trail newTrail = new Trail(this, 10, fs);
+		//newTrail.populate(fs.position, colony1.position);   *New random populate function
+		trails.add(newTrail);
+	}
+	
 	// between 3 and 10 seconds
 	private int randomWait() {
 		Random rn = new Random();
@@ -165,7 +197,6 @@ public class ProcessingMain extends PApplet {
 		for (Explorer e : explorersList) {
 			e.setAntsNumber(colony1.ants/players);
 		}
-
 	}
 /*
 	public void onLocationEvent(double _latitude, double _longitude,double _altitude, float _accuracy) { // longitude = _longitude;
@@ -181,6 +212,7 @@ public class ProcessingMain extends PApplet {
 		tempTrail.interpolateTrail();
 	}
 	
+
 	public void drawExplorers(){
 		for(Explorer exp: explorersList){
 			exp.render();
@@ -211,7 +243,4 @@ public class ProcessingMain extends PApplet {
 
 		return new PVector(mappedLat, mappedLon);
 	}
-	
-
-	
 }
