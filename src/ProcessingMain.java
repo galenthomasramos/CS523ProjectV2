@@ -72,7 +72,7 @@ public class ProcessingMain extends PApplet {
 		    ;
 
 		frameRate(60);
-<<<<<<< HEAD
+
 		colony1Pos = new PVector(this.width/5, this.height/5);
 		colony1 = new Colony(this,0, colony1Pos, 35, 40);
 		
@@ -81,11 +81,7 @@ public class ProcessingMain extends PApplet {
 		
 		tempTrail.randomPopulate(colony1Pos.x,colony1Pos.y,width, height);
 		tempTrail.interpolateTrail();
-=======
-		
-		explorersList = new ArrayList<Explorer>();
-		explorersList.add(new Explorer(this,0, new PVector(0,0), 10, 0xFF0000));
->>>>>>> 95527b450854ffe174e56dee10d8419ba93697aa
+
 	}
 	
 	public void draw(){
