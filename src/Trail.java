@@ -1,10 +1,9 @@
-//package com.cs523proj;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import processing.core.*;
+import processing.core.PApplet;
+import processing.core.PVector;
 
 public class Trail {
 	PApplet parentApplet;
@@ -37,7 +36,7 @@ public class Trail {
 			if(isColliding){
 				ant.color = 255;
 				current_collision = j;
-				System.out.println("isColliding = " + isColliding);
+//				System.out.println("isColliding = " + isColliding);
 				return true;
 			}
 			else
