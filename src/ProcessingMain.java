@@ -36,6 +36,8 @@ public class ProcessingMain extends PApplet {
 	Date started_cheating;
 	int THRESHOLD = 2000;
 	
+	PImage antImage;
+	
 	public void setup(){
 		colorMode(HSB);
 		size(800, 480);
@@ -70,6 +72,9 @@ public class ProcessingMain extends PApplet {
 			.setPosition(20 + buttonSize.x, height - buttonSize.y)
 		    .setSize((int)buttonSize.x,(int)buttonSize.y)
 		    ;
+		
+		antImage = loadImage("files/pics/ant.png");
+		antImage.resize(0, (height/20));
 
 		frameRate(60);
 
@@ -81,7 +86,6 @@ public class ProcessingMain extends PApplet {
 		
 		tempTrail.randomPopulate(colony1Pos.x,colony1Pos.y,width, height);
 		tempTrail.interpolateTrail();
-
 	}
 	
 	public void draw(){
@@ -144,7 +148,10 @@ public class ProcessingMain extends PApplet {
 
 		//}
 			 //text("Latitude: " + latitude + "\n" + "Longitude: " + longitude + "\n" + "Altitude: " + altitude + "\n" + "Accuracy: " + accuracy + "\n" + "Provider: " + location.getProvider(), width/2, height/2);
+		
 		text("Cheating: "+Boolean.toString(cheating), width*0.8f, height*0.9f);
+		this.image(antImage, width * 0.8f, height * 0.1f);
+		
 	}
 /*
 	public void onLocationEvent(double _latitude, double _longitude,double _altitude, float _accuracy) { // longitude = _longitude;
