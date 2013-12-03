@@ -42,6 +42,7 @@ public class ProcessingMain extends PApplet {
 	int players = 4;
 	int last_known_pos = 3;
 	Date last_collision;
+	int trail = -1;
 	Date started_cheating;
 	int THRESHOLD = 2000;
 
@@ -115,28 +116,50 @@ public class ProcessingMain extends PApplet {
 	public void draw(){
 		background(150);	
 		
-		tempTrail.render();
 		colony1.render();
-		
-		int old = tempTrail.current_collision;
+		int old = -1;
+		Trail colliding = null;
+		int c=-1,i=0;
+		for (FoodSpot f : foodSpots) {
+			if (f.trail == null)
+				continue;
+
+			old = f.trail.current_collision;
+			trailCollisionDetected = isCollidingWithTrail(f.trail);
+			if(trailCollisionDetected) {
+				colliding = f.trail;
+				c = i;
+				break;
+			} else
+				old = -1;
+			i++;
+		}
 //		System.out.println("last "+last_known_pos);
-		trailCollisionDetected = isCollidingWithTrail();
 		Date now = new Date();
-		
 		
 		if (trailCollisionDetected) {
 			last_collision = GregorianCalendar.getInstance().getTime();
 //			System.out.println("Collision detected");
-//			System.out.println("New collision position is circle "+tempTrail.current_collision + " old "+old);
-			if (old<tempTrail.current_collision-30 && old>0) {
-				last_known_pos = old;
+//			System.out.println("New collision position is circle "+colliding.current_collision + " old "+old+" last "+last_known_pos);
+//			System.out.println("last trail "+trail+" this trail "+c);
+			if (trail == c || trail<0) {
+				if (old<colliding.current_collision-30 && old>0) {
+					last_known_pos = old;
+					trail = c;
+					cheating = true;
+					started_cheating = new Date();
+				}
+				else if (colliding.current_collision<=last_known_pos) {
+					cheating = false;
+					started_cheating = null;
+					trail = c;
+				}
+				if(!cheating)
+					last_known_pos = colliding.current_collision;
+			}
+			else {
 				cheating = true;
 				started_cheating = new Date();
-			}
-			else if (tempTrail.current_collision<=last_known_pos) {
-				cheating = false;
-				started_cheating = null;
-				last_known_pos = tempTrail.current_collision;
 			}
 		} else {
 			if (last_collision != null && !cheating)
@@ -192,7 +215,7 @@ public class ProcessingMain extends PApplet {
 			for(FoodSpot fs: foodSpots){
 				if(fs.isColliding(exp.buffer)){
 					isColliding = true;
-					System.out.println("Is colliding with food spot");
+//					System.out.println("Is colliding with food spot");
 				}
 			}
 		}
@@ -265,14 +288,12 @@ public class ProcessingMain extends PApplet {
 	}
 	
 	//Checks every explorer to see if it is colliding with circles that constitute the trail:
-	public boolean isCollidingWithTrail(){
+	public boolean isCollidingWithTrail(Trail trail){
 		
 		for(Explorer exp: explorersList){
-			for(FoodSpot fs: foodSpots){
-				if(fs.trail != null)
-					if(fs.trail.isColliding(exp))
-						return true;
-			}
+			if(trail != null)
+				if(trail.isColliding(exp))
+					return true;
 		}
 		
 		return false;
